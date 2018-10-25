@@ -1,0 +1,116 @@
+<?php
+	// ここから　変数宣言
+	// ログインの認証結果を格納する変数
+	// 0:情報なし　1:メールアドレスが登録されていない　2:パスワードが間違っている　3:入力されていない項目がある　4:その他のエラー
+	$result = 0;
+	// DB送信前に入力されていた、メールアドレス
+	$address = "";
+	// ページ上に表示させるエラーメッセージ。
+	$errmsg = "";
+	// ここまで　変数宣言
+
+	// URLのパラメータから、リクエストを取得できる場合、getで取得。
+	if( isset($_GET["result"]) )
+	{
+		$result = $_GET["result"];
+		switch($result)
+		{
+			case 1:
+				$errmsg = "そのメールアドレスは、現在登録されていません。";
+				break;
+			case 2:
+				$errmsg = "入力されたパスワードが間違っています。";
+				break;
+			case 3:
+				$errmsg = "未入力の項目があります。";
+				break;
+			case 4:
+				$errmsg = "予期しないエラーが発生しました。";
+				break;
+		}
+	}
+	// URLのパラメータから、メールアドレスが取得できる場合、getで取得。
+	if( isset($_GET["address"]) )
+	{
+		$address = $_GET["address"];
+	}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login/SignUp Form</title>
+  
+  
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+  <html>
+
+<head>
+
+  <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Space+Mono:400,400i,700,700i" rel="stylesheet">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=0.41, maximum-scale=1" /> -->
+
+  <meta charset="UTF-8">
+  <title>Login/Sign-Up Form - By MuhammadJ</title>
+</head>
+
+<body>
+  <section id="wrapper">
+
+    <div id="one">
+      <form>
+        <label for="fName">Full name</label>
+        <p><input type="text" id="fName" autocomplete="off" /></p>
+
+        <label for="email">Email</label>
+        <p><input type="email" id="email" placeholder="Enter valid email" autocomplete="off" /></p>
+
+        <label for="password">Password</label>
+        <p><input type="password" id="password" placeholder="8 characters minimum" /></p>
+
+
+        <p class="submit"><input type="submit" value="Sign up" /></p>
+      </form>
+    </div>
+
+    <div id="two">
+      <form action="./backphp/logindb.php" method="post">
+
+        <label for="emailIn">Email</label>
+        <p><input type="email" id="email" name="email" placeholder="Enter valid email" value="<?php echo $address; ?>" autocomplete="off" /></p>
+
+        <label for="passwordIn">Password</label>
+        <p><input type="password" id="password"  name="password" placeholder="8 characters minimum" /></p>
+        <p class="submit"><input type="submit" value="Sign In" /></p>
+          <!-- エラーメッセージの表示スペース --><small><?php echo $errmsg; ?></small>
+
+      </form>
+    </div>
+    <div id="button">Sign In </div>
+  </section>
+
+
+</body>
+
+</html>
+  
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>
