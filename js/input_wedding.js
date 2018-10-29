@@ -7,23 +7,23 @@
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            first_name: {
+            groom: {
                 validators: {
                         stringLength: {
                         min: 2,
                     },
                         notEmpty: {
-                        message: 'Please supply your first name'
+                        message: 'Please supply your groom'
                     }
                 }
             },
-             last_name: {
+             bride: {
                 validators: {
                      stringLength: {
                         min: 2,
                     },
                     notEmpty: {
-                        message: 'Please supply your last name'
+                        message: 'Please supply your bride'
                     }
                 }
             },
@@ -71,7 +71,14 @@
             state: {
                 validators: {
                     notEmpty: {
-                        message: 'Please select your state'
+                        message: 'Please select your wedding day'
+                    }
+                }
+            },
+            venue: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select your venue'
                     }
                 }
             },
@@ -86,7 +93,7 @@
                     }
                 }
             },
-            comment: {
+            remarks: {
                 validators: {
                       stringLength: {
                         min: 10,
