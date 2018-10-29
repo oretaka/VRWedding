@@ -8,6 +8,10 @@
   $nickname = "";
   // 仮ログアウトボタン。現在ログイン中の場合は表示させる。
   $logout_but = "";
+  // バック処理からのメッセージコードを格納。　100:結婚式登録の成功
+  $result = 0;
+  // トップ画面に表示させるメッセージの内容。
+  $msg = "";
 
   // セッションからユーザーID・ニックネームが取得できる場合は取得し、ログイン中の表示を行う。
   if( isset($_SESSION["id"]) )
@@ -15,6 +19,19 @@
     $id = intval( $_SESSION["id"] );
     $nickname = $_SESSION["nickname"];
     $logout_but = "<a href=\"backphp/logout.php\">ログアウト</a>";
+  }
+  // GETリクエストからメッセージコードを取得できる場合は取得する。
+  if( isset($_GET["result"]) )
+  {
+    $result = intval($_GET["result"]);
+    $msg = "<p>";
+    switch($result)
+    {
+      case 100:
+        $msg .= "結婚式の募集が完了しました。";
+        break;
+    }
+    $msg .= "</p>";
   }
 
 ?>
@@ -49,6 +66,11 @@
           echo "<p>こんにちは　" . $nickname . "さん</p>";
           echo $logout_but;
         }
+        // メッセージ情報がある場合は表示。
+        if( strcmp($msg, "") != 0 )
+        {
+          echo $msg;
+        }
       ?>
 
       <div id="countDownWrapper">
@@ -82,8 +104,8 @@
       <h2><a href="" target="_blank">1700 Ferguson Falls Rd <br>Lanark, ON K0G 1K0</a></h2>
       
     <div class="buttons">
-      <a href="#registry" class="openHomePage">Registry <i class="fa fa-external-link" aria-hidden="true"></i></a>
-      <a href="login.php">Login <i class="fa fa-external-link" aria-hidden="true"></i></a>
+      <a href="login.php">Login / Registry<i class="fa fa-external-link" aria-hidden="true"></i></a>
+      <a href="input_wedding.php">Wedding Recruitment<i class="fa fa-external-link" aria-hidden="true"></i></a>
       <a href="#bridalParty" class="openHomePage">Bridal Party</a>
       <!-- <a href="#venu" class="openHomePage">Venu</a> -->
       <a href="#accomodations" class="openHomePage">Accomodations</a> 
@@ -106,8 +128,8 @@
   <p class="menuToggle"><i class="fa fa-bars" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></p>
   <nav>
     <a class="goHome">Home</a>
-      <a href="#registry" class="openHomePage">Registry <i class="fa fa-external-link" aria-hidden="true"></i></a>
-      <a href="login.php">Login<i class="fa fa-external-link" aria-hidden="true"></i></a>
+      <a href="login.php" class="openHomePage">Registry/Login <i class="fa fa-external-link" aria-hidden="true"></i></a>
+      <a href="input_wedding.php">Wedding Recruitment<i class="fa fa-external-link" aria-hidden="true"></i></a>
       <a href="#bridalParty" class="openHomePage">Bridal Party</a>
       <a href="#venu" class="openHomePage">Venu</a>
       <a href="#faq" class="openHomePage">FAQ</a>

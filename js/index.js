@@ -1,111 +1,141 @@
-/*global console, alert, confirm, prompt*/
-var forms = document.forms;
-p = document.querySelectorAll('p'),
-  input = document.querySelectorAll('input:not([type="submit"])'),
-  submit = document.querySelectorAll('input[type="submit"]');
-password = input[2],
-  password2 = document.getElementById('passwordIn'),
-  email = input[1],
-  email2 = document.getElementById('emailIn');
 
-[].forEach.call(input, function(inputE) {
-  'use strict';
+var weddingDate = "September 2, 2018 14:30:00";
 
-  inputE.addEventListener('focus', function() {
-    'use strict';
-    inputE.parentNode.previousElementSibling.style.color = '#FDED62';
-    inputE.style.transform = 'translate(5px, 5px)';
+$(document).ready(function() {
+  $('body').addClass('homeOpened');
+  countdownTimerInit();
+  logoCenter();
+  
+  
+  $('.openHomePage').click(function(e){
+    e.preventDefault();
+    $('.homepage').addClass('homeOpened');
+    $('body').removeClass('homeOpened');
   });
+  
+  $('.goHome').click(function(e){
+    e.preventDefault();
+     $('.homepage').removeClass('homeOpened');
+    $('body').addClass('homeOpened');
+ 
+  });
+  
+   $('.menuToggle i').click(function(e){
+    e.preventDefault();
+    $('.menuToggle').toggleClass('opened');
+     $('nav').toggleClass('opened');
+  });
+  
+   $('nav a').click(function(e){
+    e.preventDefault();
+      $('.menuToggle').toggleClass('opened');
+     $('nav').toggleClass('opened');
+  });
+  
+   $('.accordian .trigger').click(function(e){
+    e.preventDefault();
+      $(this).parent('.accordian').toggleClass('opened');
 
-  inputE.addEventListener('blur', function() {
-    'use strict';
-    console.log('blur');
-    inputE.parentNode.previousElementSibling.style.color = '#fff';
-    inputE.style.transform = 'translate(0px, 0px)';
   });
-  /*
-  inputE.addEventListener('mouseout', function () {
-      'use strict';
-      console.log('out');
-      inputE.style.transform = 'translate(0px, 0px)';
-  });
-
-  inputE.addEventListener('mouseover', function () {
-      'use strict';
-      inputE.style.transform = 'translate(5px, 5px)';
-  });
-  */
+  
+  
 });
 
-function checkPassword(e) {
-  'use strict';
-  var el = e.target;
-  console.log(el);
-  if (el.value.length < 8 && el.value.length !== 0) {
-    el.parentNode.previousElementSibling.style.color = '#FB6868';
-  } else {
-    el.parentNode.previousElementSibling.style.color = '#FDED62';
-  }
+var resizeTimer;
+$(window).on('resize', function(e) {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function() {
+
+  logoCenter();
+            
+  }, 250);
+});
+
+function countdownTimerInit() {
+  var todaysDate = new Date();
+  var todaysTime = todaysDate.getTime();
+
+  var target_date = new Date(weddingDate).getTime();
+
+  var countdownTimer = new Vue({
+    el: "#countdownTimer",
+    data: {
+      countdown_days: "",
+      countdown_hours: "",
+      countdown_min: "",
+      countdown_sec: ""
+    }
+  });
+
+  var years, days, hours, minutes, seconds;
+  setInterval(function() {
+    // find the amount of "seconds" between now and target
+    var current_date = new Date().getTime();
+    var seconds_left = (target_date - current_date) / 1000;
+
+    // do some time calculations
+    countdownTimer.countdown_days = parseInt(seconds_left / 86400);
+    seconds_left = seconds_left % 86400;
+
+    countdownTimer.countdown_hours = parseInt(seconds_left / 3600);
+    seconds_left = seconds_left % 3600;
+
+    countdownTimer.countdown_min = parseInt(seconds_left / 60);
+    countdownTimer.countdown_sec = parseInt(seconds_left % 60);
+  }, 1000);
+
+  return;
 }
 
-function checkEmail(e) {
-  'use strict';
-  var el = e.target;
-  var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  if (!reg.test(el.value) && el.value !== '') {
-    el.parentNode.previousElementSibling.style.color = '#FB6868';
-  } else {
-    el.parentNode.previousElementSibling.style.color = '#FDED62';
-  }
+function logoCenter(){
+  var logoHeight = $('.weddingLogo').height();
+  var pageHeight = $(window).height();
+  
+  var marginPushT = (pageHeight/2)-(logoHeight/2);
+  $('.weddingLogo').css('margin-top',marginPushT+'px');
+  
+   var logoWidth = $('.weddingLogo').width();
+  var pageWidth = $(window).width()/2;
+  
+  var marginPushL = (pageWidth/2)-(logoWidth/2);
+  $('.weddingLogo').css('margin-left',marginPushL+'px');
+  
 }
 
-password.addEventListener('input', checkPassword);
-password.addEventListener('focus', checkPassword);
-email.addEventListener('input', checkEmail);
-email.addEventListener('focus', checkEmail);
-submit[0].addEventListener('click', function(e) {
-  'use strict';
-  e.preventDefault();
-});
 
-password2.addEventListener('input', checkPassword);
-password2.addEventListener('focus', checkPassword);
-email2.addEventListener('input', checkEmail);
-email2.addEventListener('focus', checkEmail);
-submit[1].addEventListener('click', function(e) {
-  'use strict';
-  e.preventDefault();
-});
-
-var button = document.getElementById('button'),
-  wrapper = document.getElementById('wrapper'),
-  c = true,
-  one = document.getElementById('one'),
-  two = document.getElementById('two');
-
-button.addEventListener('click', function() {
-  'use strict';
-  if (c) {
-    one.style.pointerEvents = 'none';
-    two.style.pointerEvents = 'auto';
-    one.style.opacity = '0.1';
-    two.style.opacity = '1';
-    one.style.transform = 'translateX(100%)';
-    two.style.transform = 'translateX(0%)';
-    button.textContent = 'Sign Up';
-
-    c = false;
-  } else {
-    one.style.pointerEvents = 'auto';
-    two.style.pointerEvents = 'none';
-    one.style.opacity = '1';
-    two.style.opacity = '0.1';
-    one.style.transform = 'translateX(0%)';
-    two.style.transform = 'translateX(-100%)';
-    button.textContent = 'Sign In';
-
-    c = true;
-  }
-
-});
+// Select all links with hashes
+$('a[href*="#"]')
+  // Remove links that don't actually link to anything
+  .not('[href="#"]')
+  .not('[href="#0"]')
+  .click(function(event) {
+    // On-page links
+    if (
+      location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+      && 
+      location.hostname == this.hostname
+    ) {
+      // Figure out element to scroll to
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      // Does a scroll target exist?
+      if (target.length) {
+        // Only prevent default if animation is actually gonna happen
+        event.preventDefault();
+        $('html, body').animate({
+          scrollTop: target.offset().top -60
+        }, 1000, function() {
+          // Callback after animation
+          // Must change focus!
+          var $target = $(target);
+          $target.focus();
+          if ($target.is(":focus")) { // Checking if the target was focused
+            return false;
+          } else {
+            $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+            $target.focus(); // Set focus again
+          };
+        });
+      }
+    }
+  });
