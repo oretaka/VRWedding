@@ -1,0 +1,11 @@
+@charset "UTF-8";
+.linkBut
+{
+	display:table;
+	height:64px;
+}
+.linkText
+{
+	display:table-cell;
+  	vertical-align:middle;
+}

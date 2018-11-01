@@ -102,6 +102,9 @@
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
 
       <link rel="stylesheet" href="css/style.css">
+      <!-- リンクボタンの大きさを修正 -->
+      <link rel="stylesheet" href="css/index.css">
+
 </head>
 
 <body>
@@ -159,13 +162,12 @@
       <h2><a href="" target="_blank">1700 Ferguson Falls Rd <br>Lanark, ON K0G 1K0</a></h2>
       
     <div class="buttons">
-      <a href="login.php">Login / Registry<i class="fa fa-external-link" aria-hidden="true"></i></a>
-      <a href="input_wedding.php">Wedding Recruitment<i class="fa fa-external-link" aria-hidden="true"></i></a>
-      <a href="#bridalParty" class="openHomePage">Bridal Party</a>
-      <!-- <a href="#venu" class="openHomePage">Venu</a> -->
-      <a href="#accomodations" class="openHomePage">Accomodations</a> 
-      <a href="#faq" class="openHomePage">FAQ</a>
-      <a href="#" class='nulled openHomePage'>Gallery</a>
+      <a href="login.php" class="linkBut"><div class="linkText">Login / Registry</div></a>
+      <a href="input_wedding.php" class="linkBut"><div class="linkText">Wedding Recruitment</div></a>
+      <a href="#bridalParty" class="openHomePage linkBut"><div class="linkText">Bridal Party</div></a>
+      <a href="#accomodations" class="openHomePage linkBut"><div class="linkText">Accomodations</div></a> 
+      <a href="#faq" class="openHomePage linkBut"><div class="linkText">FAQ</div></a>
+      <a href="#" class='nulled openHomePage linkBut'><div class="linkText">Gallery</div></a>
       
       <p><em>Check back after the event for pictures of the wedding</em></p>
       
