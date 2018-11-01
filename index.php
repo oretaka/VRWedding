@@ -1,7 +1,11 @@
 <?php
   // セッションを使用。
   session_start();
+  // DAOクラスの読み込み
+  require_once("backphp/Dao.class.php");
 
+  //    ここから　変数宣言・初期化
+  
   // 現在ログイン中のユーザーID。
   $id = -1;
   // 現在ログイン中のユーザーニックネーム。
@@ -12,6 +16,56 @@
   $result = 0;
   // トップ画面に表示させるメッセージの内容。
   $msg = "";
+  // DBのDAOオブジェクト。
+  $dao = new DAO();
+  // DBからの取得結果を格納する配列。
+  $dbres = null;
+  // DBから取得した、結婚式募集情報のHTMLデータを格納。
+  $bpHtml = '';
+
+  // 結婚式の開始時間を、ユーザーに分かりやすい形式に変換したテキスト。
+  $startTimeShow = '';
+
+  //    ここまで　変数宣言・初期化
+
+  // 最新の結婚式情報の取得を行う。
+  $dbres = $dao->select("wedding_register",null,null,null,null,"ORDER BY date, time");
+  // 取得した結婚式の情報数分、HTMLを生成し、BridalParty欄に表示させる(横は最大2件表示)。
+  for($i=0;$i<count($dbres);$i++)
+  {
+    if($i % 2 == 0)
+    {
+      // $iが偶数
+      // profileHolderの開始
+      $bpHtml .= '<div class="profileHolder">';
+    }
+
+    $bpHtml .= '<div class="width50"><img class="profileImage" src="img/userimg.jpg">';
+
+    // 結婚式のタイトル(相手の名前・自分の名前を表示させます)
+    $bpHtml .= '<h3>' . $dbres[$i]["maleName"] . '　♡　' . $dbres[$i]["femaleName"] . '</h3>';
+
+    // 結婚式の時間(開始時間のみ)・備考など
+    $bpHtml .= '<p>';
+    // 時間
+    // DB上の時間を、ユーザーが分かりやすい表示形式に変換する。
+    $startTimeShow =  date("Y/m/j", strtotime( $dbres[$i]["date"] )) . "　" . date("H:i～", strtotime( $dbres[$i]["time"] ));
+    $bpHtml .= '<b>' . $startTimeShow .  '</b><br>';
+
+    // 備考欄
+    $bpHtml .= $dbres[$i]["note"];
+    $bpHtml .= '</p>';
+    $bpHtml .= '</div>';
+
+    if($i % 2 == 1)
+    {
+      // $iが奇数
+      // profileHolderの終了
+      $bpHtml .= '</div>';
+    }
+  }
+
+
 
   // セッションからユーザーID・ニックネームが取得できる場合は取得し、ログイン中の表示を行う。
   if( isset($_SESSION["id"]) )
@@ -20,6 +74,7 @@
     $nickname = $_SESSION["nickname"];
     $logout_but = "<a href=\"backphp/logout.php\">ログアウト</a>";
   }
+  // 
   // GETリクエストからメッセージコードを取得できる場合は取得する。
   if( isset($_GET["result"]) )
   {
@@ -149,8 +204,9 @@
       <div class="contentArea">
         <h2>Bridal Party</h2>
         <p>Schedule list</p>
+        <?php echo $bpHtml; ?>
         
-        <div class="profileHolder">
+        <!-- <div class="profileHolder">
           <div class="width50">
             <img class="profileImage" src="img/userimg.jpg">
             <h3>〇〇〇 ♡ ▲▲▲ </h3>
@@ -162,9 +218,9 @@
             <h3>〇〇〇 ♡ ▲▲▲ </h3>
             <p><b>14：00～18：00</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id ante et mi gravida vestibulum nec vel tortor. Vivamus tincidunt ligula tristique magna ultrices ultricies. Praesent neque nulla, ornare in posuere quis, commodo ut mauris. Ut porttitor id purus nec ullamcorper. Donec eget rhoncus nunc. Aliquam blandit eget mi eget tempus. Duis et nunc tortor. Quisque odio ante, convallis vel dui sed, vulputate iaculis leo. Aenean mollis lacus purus, nec feugiat risus rhoncus a. Aenean egestas elit sit amet odio lobortis euismod. Praesent vel enim nibh. Vestibulum vitae euismod lorem. </p>
            </div>   
-          </div>
+          </div> -->
 <!--   profile holder end      -->
-        <div class="profileHolder">
+       <!--  <div class="profileHolder">
           <div class="width50">
             <img class="profileImage" src="img/userimg.jpg">
             <h3>Maid of Honour Name</h3>
@@ -176,9 +232,9 @@
             <h3>Best Man Name</h3>
             <p><b>Best Man</b><br>Aenean mollis lacus purus, nec feugiat risus rhoncus a. Aenean egestas elit sit amet odio lobortis euismod. Praesent vel enim nibh. Vestibulum vitae euismod lorem. </p>
            </div>   
-          </div>
+          </div> -->
 <!--   profile holder end      -->
-        <div class="profileHolder">
+       <!--  <div class="profileHolder">
           <div class="width50">
             <img class="profileImage" src="img/userimg.jpg">
             <h3>Bridemaid Name </h3>
@@ -190,7 +246,7 @@
             <h3>Groomsman Name </h3>
             <p><b>Groomsman</b><br>Aenean mollis lacus purus, nec feugiat risus rhoncus a. Aenean egestas elit sit amet odio lobortis euismod. Praesent vel enim nibh. Vestibulum vitae euismod lorem.</p>
            </div>   
-          </div>
+          </div> -->
 <!--   profile holder end      -->
        
    
