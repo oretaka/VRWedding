@@ -11,7 +11,10 @@ $groom = "";
 $bride = "";
 // ユーザーが選択した会場の会場id。
 $venue = 0;
-// 日付欄　※現在保留中
+// 日付欄
+$wdate = "";
+// 時間欄
+$wtime = "";
 
 // 備考欄
 $remarks = "";
@@ -54,6 +57,16 @@ if(isset($_POST["remarks"]))
 	$remarks = $_POST["remarks"];
 	$in_count++;
 }
+// 開催日付
+if(isset($_POST["wdate"]))
+{
+	$wdate = $_POST["wdate"];
+}
+// 開催時間
+if(isset($_POST["wtime"]))
+{
+	$wtime = $_POST["wtime"];
+}
 
 
 // 入力フォームから取得したPOSTデータが3以下の場合は、不正なアクセスとみなす。
@@ -69,7 +82,7 @@ else
 		$userId = intval($_SESSION["id"]);
 
 		// 入力されたデータを基に、結婚式募集情報をDBに登録する。
-		$dbres = $dao->insert("wedding_register",["userID","placeID","twitterAccount","maleName","femaleName","date","time","note"],[$userId,$venue,"twittername",$groom,$bride,"2018-10-29","15:00:00",$remarks]);
+		$dbres = $dao->insert("wedding_register",["userID","placeID","twitterAccount","maleName","femaleName","date","time","note"],[$userId,$venue,"twittername",$groom,$bride,$wdate,$wtime,$remarks]);
 		// 登録処理で例外が発生した場合、エラー番号を2とする。
 		if($dbres == false)
 		{

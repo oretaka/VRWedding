@@ -125,4 +125,11 @@
                 console.log(result);
             }, 'json');
         });
+
+    // datepickerの表示イベント開始
+    $('#wdate').pickadate({ format:'yyyy/mm/dd', formatSubmit:'yyyy-mm-dd' });
+    // timepickerの表示イベント開始
+    $('#wtime').pickatime({ format:'HH:i', formatSubmit:'HH:i', interval:60, min:[0,0], max:[23,0]  });
+
+
 });

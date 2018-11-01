@@ -61,6 +61,10 @@
 <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'>
 <link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
 
+      <!-- 時刻指定ライブラリ用cssの読み込み -->
+      <link rel="stylesheet" href="css/default.css">
+      <link rel="stylesheet" href="css/default.time.css">
+      <link rel="stylesheet" href="css/default.date.css">
       <link rel="stylesheet" href="css/input_wedding.css">
 
   
@@ -117,15 +121,21 @@
 </div>
     
 <div class="form-group"> 
-  <label class="col-md-4 control-label">Wedding Day</label>
+  <label class="col-md-4 control-label">Wedding Date</label>
     <div class="col-md-4 selectContainer">
     <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-    <select name="state" class="form-control selectpicker" >
-      <option value=" " >Please select Wedding Day</option>
-      <option value="1">Version1</option>
-      <option value="2">Version2</option>
-    </select>
+        <input id='wdate' name='wdate' class="fieldset__input js__datepicker" type="text" placeholder="Please select Wedding Date">
+  </div>
+</div>
+</div>
+
+<div class="form-group"> 
+  <label class="col-md-4 control-label">Wedding Time</label>
+    <div class="col-md-4 selectContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+        <input id='wtime' name='wtime' class="fieldset__input js__datepicker" type="text" placeholder="Please select Wedding Time">
   </div>
 </div>
 </div>
@@ -181,8 +191,14 @@
 <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
 
   
+    <!-- 日付選択フォームのjavascriptライブラリの読み込み -->
+    <script  src="js/picker.js"></script>
+    <script  src="js/legacy.js"></script>
+    <script  src="js/picker.date.js"></script>
+    <script  src="js/picker.time.js"></script>
 
     <script  src="js/input_wedding.js"></script>
+
 
 
 
