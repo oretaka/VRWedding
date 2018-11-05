@@ -26,9 +26,9 @@ $(document).ready(function() {
      $('nav').toggleClass('opened');
   });
   
-   $('nav a').click(function(e){
+   $('nav a.noForm').click(function(e){
     e.preventDefault();
-      $('.menuToggle').toggleClass('opened');
+     $('.menuToggle').toggleClass('opened');
      $('nav').toggleClass('opened');
   });
   
