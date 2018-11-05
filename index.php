@@ -184,13 +184,13 @@
 <div class="mainPageWrapper" id="topOfPage">
   <p class="menuToggle"><i class="fa fa-bars" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></p>
   <nav>
-    <a class="goHome">Home</a>
-      <a href="login.php" class="openHomePage">Registry/Login <i class="fa fa-external-link" aria-hidden="true"></i></a>
-      <a href="input_wedding.php">Wedding Recruitment<i class="fa fa-external-link" aria-hidden="true"></i></a>
-      <a href="#bridalParty" class="openHomePage">Bridal Party</a>
-      <a href="#venu" class="openHomePage">Venu</a>
-      <a href="#faq" class="openHomePage">FAQ</a>
-      <a href="#" class='nulled openHomePage'>Gallery</a>
+    <a class="noForm goHome">Home</a>
+      <a href="login.php">Login / Registry</a>
+      <a href="input_wedding.php">Wedding Recruitment</a>
+      <a href="#bridalParty" class="noForm openHomePage">Bridal Party</a>
+      <a href="#venu" class="noForm openHomePage">Venu</a>
+      <a href="#faq" class="noForm openHomePage">FAQ</a>
+      <a href="#" class='nulled noForm openHomePage'>Gallery</a>
       
     <p></p>
       
