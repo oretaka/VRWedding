@@ -78,7 +78,7 @@
         <h3 class="zilla less-space">please join us for a</h3>
         <h1 class="oswald uppercase some-space bigger-text">Bridal Shower</h1>
         <h4 class="zilla less-space">in honor<br> of the bride-to-be</h4>
-        <h2 class="oswald uppercase some-space"><?php echo $maleName; ?> ♡ <?php echo $femaleName; ?></h2>
+        <h2 class="smallname oswald uppercase some-space"><span class="maleName"><?php echo $maleName; ?></span> <span class="heart">♡</span> <span class="femaleName"><?php echo $femaleName; ?></span></h2>
         <h3 class="zilla less-space"><?php echo $dotw . ", " . $date . " at " . $time; ?></h3>
         <h3 class="smallnote zilla less-space"><?php echo $note; ?></h3>
       </div></div>

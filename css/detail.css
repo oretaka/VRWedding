@@ -53,3 +53,25 @@
 .gray {
   color: #a3d5ba;
 }
+
+/* 新郎新婦の氏名の文字サイズ変更 */
+.smallname
+{
+  font-size:20px;
+}
+/* 新郎新婦エリアの文字色変更。 */
+.maleName
+{
+  margin:0;
+  color:#0047b3;
+}
+.femaleName
+{
+  margin:0;
+  color:#a90522;
+}
+.heart
+{
+  margin:0;
+  color:#ff2fef;
+}
