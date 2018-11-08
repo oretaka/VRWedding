@@ -122,7 +122,7 @@
         if(strcmp($nickname, "") != 0)
         {
           echo "<p>こんにちは　" . $nickname . "さん</p>";
-          echo $logout_but;
+          //echo $logout_but;
         }
         // メッセージ情報がある場合は表示。
         if( strcmp($msg, "") != 0 )
@@ -162,7 +162,15 @@
       <h2><a href="" target="_blank">1700 Ferguson Falls Rd <br>Lanark, ON K0G 1K0</a></h2>
       
     <div class="buttons">
-      <a href="login.php" class="linkBut"><div class="linkText">Login / Registry</div></a>
+      <?php
+         if(strcmp($nickname, "") != 0)
+         {
+           echo "<a href='backphp/logout.php' class='linkBut'><div class='linkText'>Logout</div></a>";
+         }
+         else {
+           echo "<a href='login.php' class='linkBut'><div class='linkText'>Login / Registry</div></a>";
+         }
+      ?>
       <a href="input_wedding.php" class="linkBut"><div class="linkText">Wedding Recruitment</div></a>
       <a href="#bridalParty" class="openHomePage linkBut"><div class="linkText">Bridal Party</div></a>
       <a href="#accomodations" class="openHomePage linkBut"><div class="linkText">Accomodations</div></a> 
@@ -185,7 +193,15 @@
   <p class="menuToggle"><i class="fa fa-bars" aria-hidden="true"></i><i class="fa fa-times" aria-hidden="true"></i></p>
   <nav>
     <a class="noForm goHome">Home</a>
-      <a href="login.php">Login / Registry</a>
+    <?php
+      if(strcmp($nickname, "") != 0)
+      {
+        echo "<a href='backphp/logout.php' class='linkBut'><div class='linkText'>Logout</div></a>";
+      }
+      else {
+        echo "<a href='login.php' class='linkBut'><div class='linkText'>Login / Registry</div></a>";
+      }
+    ?>
       <a href="input_wedding.php">Wedding Recruitment</a>
       <a href="#bridalParty" class="noForm openHomePage">Bridal Party</a>
       <a href="#venu" class="noForm openHomePage">Venu</a>
