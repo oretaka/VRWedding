@@ -391,10 +391,10 @@
           <div class="info">
             <h3>Best Western Perth</h3>
             <p>1700 Ferguson Falls Rd <br>Lanark, ON K0G 1K0</p>
-             <p><a target="_blank" href="tel:98289298623"><i class="fa fa-phone" aria-hidden="true"></i> (846) 599-0984</a></p>
+             <!-- <p><a target="_blank" href="tel:98289298623"><i class="fa fa-phone" aria-hidden="true"></i> (846) 599-0984</a></p>
             <p>
   <a target="_blank" href="http://www.templessugarbush.ca/"><i class="fa fa-map-marker" aria-hidden="true"></i> Website</a></p>
-            <p><a target="_blank" href="https://www.google.ca/maps/dir/''/temple's+sugar+bush/@45.0377293,-76.3555751,12z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x4cd26d0722c94e01:0xb2ea76f2e0a686cc!2m2!1d-76.2855353!2d45.0377507"><i class="fa fa-globe" aria-hidden="true"></i> Open Width Google Maps</a></p>
+            <p><a target="_blank" href="https://www.google.ca/maps/dir/''/temple's+sugar+bush/@45.0377293,-76.3555751,12z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x4cd26d0722c94e01:0xb2ea76f2e0a686cc!2m2!1d-76.2855353!2d45.0377507"><i class="fa fa-globe" aria-hidden="true"></i> Open Width Google Maps</a></p> -->
 
 </div>
 </div>
@@ -405,10 +405,10 @@
           <div class="info">
             <h3>Best Western Kanata</h3>
             <p>1700 Ferguson Falls Rd <br>Lanark, ON K0G 1K0</p>
-             <p><a target="_blank" href="tel:98289298623"><i class="fa fa-phone" aria-hidden="true"></i> (846) 599-0984</a></p>
+             <!-- <p><a target="_blank" href="tel:98289298623"><i class="fa fa-phone" aria-hidden="true"></i> (846) 599-0984</a></p> -->
             <p>
-  <a target="_blank" href="http://www.templessugarbush.ca/"><i class="fa fa-map-marker" aria-hidden="true"></i> Website</a></p>
-            <p><a target="_blank" href="https://www.google.ca/maps/dir/''/temple's+sugar+bush/@45.0377293,-76.3555751,12z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x4cd26d0722c94e01:0xb2ea76f2e0a686cc!2m2!1d-76.2855353!2d45.0377507"><i class="fa fa-globe" aria-hidden="true"></i> Open Width Google Maps</a></p>
+  <!-- <a target="_blank" href="http://www.templessugarbush.ca/"><i class="fa fa-map-marker" aria-hidden="true"></i> Website</a></p>
+            <p><a target="_blank" href="https://www.google.ca/maps/dir/''/temple's+sugar+bush/@45.0377293,-76.3555751,12z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x4cd26d0722c94e01:0xb2ea76f2e0a686cc!2m2!1d-76.2855353!2d45.0377507"><i class="fa fa-globe" aria-hidden="true"></i> Open Width Google Maps</a></p> -->
 
 </div>
 </div>
