@@ -106,7 +106,7 @@
       $bpHtml .= '</p>';
 
       // 詳細ページに飛ばすリンクボタンの設置
-      $bpHtml .= '<input type="submit" value="詳細を見る">';
+      $bpHtml .= '<input type="submit" class="btn btn-5" value="詳細を見る">';
       $bpHtml .= '</form>';
       $bpHtml .= '</div>';
 
@@ -160,6 +160,9 @@
       <link rel="stylesheet" href="css/style.css">
       <!-- リンクボタンの大きさを修正 -->
       <link rel="stylesheet" href="css/index.css">
+      <!-- 「詳細を見る」ボタン整形用css -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+      <link rel="stylesheet" href="css/button.css">
 
 </head>
 
