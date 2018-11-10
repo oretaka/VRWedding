@@ -1,0 +1,47 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #efefef;
+  color: #121221;
+  font: 700 14px/1 Montserrat, sans-serif;
+  letter-spacing: 0.125em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.btn {
+  background: none;
+  border: 2px solid;
+  border-bottom-width: 4px;
+  font: inherit;
+  letter-spacing: inherit;
+  margin: 1em;
+  padding: 1em 2em;
+  text-transform: inherit;
+  transition: color 1s;
+}
+.btn-5 {
+  color: #7cf07f;
+}
+.btn-5:hover {
+  -webkit-animation: blinds 0.75s linear forwards;
+          animation: blinds 0.75s linear forwards;
+  background: linear-gradient(0deg, #7cf07f 25%, transparent 25%) 0 0/0.5em 0.5em, linear-gradient(0deg, #88d6f3 50%, transparent 50%) 0 0/1em 1em;
+  color: #f07ced;
+}
+
+@-webkit-keyframes blinds {
+  100% {
+    background-position: 0 0, 0 -3em;
+    background-size: 0 0, 1em 6em;
+  }
+}
+
+@keyframes blinds {
+  100% {
+    background-position: 0 0, 0 -3em;
+    background-size: 0 0, 1em 6em;
+  }
+}
