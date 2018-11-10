@@ -135,7 +135,7 @@
       $weddingYN .= '<form action="backphp/detail_db.php" method="post">';
       $weddingYN .= '<input type="hidden" name="weddingID" value="' . $weddingID . '">';
       $weddingYN .= '<input type="hidden" name="userID" value="' . $id . '">';
-      $weddingYN .= '<input type="submit" name="attend" value="参加する"></form>';
+      $weddingYN .= '<input type="submit" name="attend" class="btn btn-5" value="参加する"></form>';
     }
     else
     {
@@ -162,6 +162,9 @@
   
   
       <link rel="stylesheet" href="css/detail.css">
+       <!-- ボタンの整形用css -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+      <link rel="stylesheet" href="css/button.css">
 
   
 </head>
