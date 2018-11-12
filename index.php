@@ -291,7 +291,7 @@
   
   
   
-   <h1 class="big">Virtual♡<span></span>Wedding</h1>
+   <h1 id="vwTitle" class="big">Virtual♡<span></span>Wedding</h1>
   
    <div class="section" id="bridalParty">
       <div class="contentArea">
