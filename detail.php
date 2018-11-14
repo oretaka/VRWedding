@@ -13,9 +13,9 @@
   // 女の名前
   $femaleName = "";
   // 結婚式の日付
-  $date = "2018/1/1";
+  $date = "2000/1/1";
   // 結婚式の時間
-  $time = "";
+  $time = "00:00:00";
   // 結婚式の実施曜日(算出結果)
   $dotw = "";
   // 結婚式の備考
@@ -27,6 +27,13 @@
 
   // 結婚式の参加結果。　1:結婚式の参加正常完了　2:システムエラー発生
   $result = 0;
+  // 該当の結婚式の開始時間前の場合、trueとなるフラグ。開始時間を過ぎている場合はfalse。
+  $weddingNotReady = false;
+
+  // 比較用結婚式の開始日時。
+  $datetime = null;
+  // 比較用現在日時。
+  $nowDatetime = null;
 
   // DBのDAOオブジェクト。
   $dao = new DAO();
@@ -139,8 +146,26 @@
     }
     else
     {
-      // 既に該当の結婚式に参加している場合
-      $weddingYN .= '<p>既に参加登録済みです。</p>';
+      	// 既に該当の結婚式に参加している場合、結婚式の開始時間前ならばルームに入るボタンを無効に、開始時間後ならばルームに入るボタンを有効にする。
+      	$datetime = new Datetime( str_replace('/', '-', $date) . ' ' . str_replace('～', ':00', $time) );
+      	$nowDatetime = new Datetime();
+
+      	if($nowDatetime < $datetime)
+      	{
+      		// 現在時刻がまだ開始時間を過ぎていないなら、入室不可とする。
+      		$weddingNotReady = true;
+      	}
+    	$weddingYN .= '<button type="button" name="entry" value="entry"';
+    	if($weddingNotReady)
+    	{
+    		$weddingYN .= ' disabled';
+    	}
+    	$weddingYN .= '>ルームに入る</button>';	
+    	if($weddingNotReady)
+    	{
+    		// まだ開始時間を過ぎていない場合、その旨のメッセージを画面に表示させる。
+    		$weddingYN .= '<p>開始時間までしばらくお待ちください。</p>';
+    	}
     }
  
   }
