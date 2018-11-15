@@ -209,6 +209,7 @@
         <h3 class="smallnote zilla less-space"><?php echo $note; ?></h3>
         <!-- 参加・不参加ボタンの表示エリア -->
         <h4 class="zilla less-space"><?php echo $weddingYN; ?></h4>
+        <button type="button" name="home" class="btn btn-5" onclick="location.href='index.php';">HOME</button>
         
       </div></div>
   </div>

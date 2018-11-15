@@ -60,6 +60,9 @@
   <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
 <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'>
 <link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css'>
+ <!-- ボタンの整形用css -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="css/button.css"> -->
 
       <!-- 時刻指定ライブラリ用cssの読み込み -->
       <link rel="stylesheet" href="css/default.css">
@@ -181,7 +184,12 @@
     <button type="submit" class="btn btn-warning" >Send <span class="glyphicon glyphicon-send"></span></button>
   </div>
 </div>
-
+<div class="form-group">
+    <label class="col-md-4 control-label"></label>
+    <div class="col-md-4">
+      <button type="button" name="home" class="btn btn-5" onclick="location.href='index.php';">HOME</button>
+    </div>
+</div>
 </fieldset>
 </form>
 </div>
