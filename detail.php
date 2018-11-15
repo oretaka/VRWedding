@@ -31,11 +31,15 @@
   $result = 0;
   // 該当の結婚式の開始時間前の場合、trueとなるフラグ。開始時間を過ぎている場合はfalse。
   $weddingNotReady = false;
+  // 該当の結婚式が開催当日以降の場合、trueとなるフラグ。まだ開催日当日を過ぎていない場合はfalse。
+  $weddingFinished = false;
 
   // 比較用結婚式の開始日時。
   $datetime = null;
   // 比較用現在日時。
   $nowDatetime = null;
+  // 比較用の結婚式終了日時。
+  $finishTime = null;
 
   // DBのDAOオブジェクト。
   $dao = new DAO();
@@ -141,35 +145,54 @@
     if(empty($dbres))
     {
       // まだ該当の結婚式には参加していない場合
-      $weddingYN .= '<form action="backphp/detail_db.php" method="post">';
-      $weddingYN .= '<input type="hidden" name="weddingID" value="' . $weddingID . '">';
-      $weddingYN .= '<input type="hidden" name="userID" value="' . $id . '">';
-      $weddingYN .= '<input type="submit" name="attend" class="btn btn-5" value="参加する"></form>';
+      $loginHTML .= '<form action="backphp/detail_db.php" method="post">';
+      $loginHTML .= '<input type="hidden" name="weddingID" value="' . $weddingID . '">';
+      $loginHTML .= '<input type="hidden" name="userID" value="' . $id . '">';
+      $loginHTML .= '<input type="submit" name="attend" class="btn btn-5" value="参加する"></form>';
     }
     else
     {
-      	// 既に該当の結婚式に参加している場合、結婚式の開始時間前ならばルームに入るボタンを無効に、開始時間後ならばルームに入るボタンを有効にする。
-      	$datetime = new Datetime( str_replace('/', '-', $date) . ' ' . str_replace('～', ':00', $time) );
-      	$nowDatetime = new Datetime();
+    	// 既に該当の結婚式に参加している場合、結婚式の開始時間前ならばルームに入るボタンを無効に、開始時間後ならばルームに入るボタンを有効にする。
+    	$datetime = new Datetime( str_replace('/', '-', $date) . ' ' . str_replace('～', ':00', $time) );
+      // 結婚式の入室締切時刻を格納。
+      $finishTime = new Datetime( $datetime->format('Y-m-d') . ' ' . '00:00:00' );
+      $finishTime->modify('+1 days');
 
-      	if($nowDatetime < $datetime)
-      	{
-      		// 現在時刻がまだ開始時間を過ぎていないなら、入室不可とする。
-      		$weddingNotReady = true;
-      	}
+    	$nowDatetime = new Datetime();
+
+    	if($nowDatetime < $datetime)
+    	{
+    		$weddingNotReady = true;
+    	}
+      else if($nowDatetime >= $finishTime)
+      {
+        // 現在時刻が入室締切時刻を過ぎている場合も、入室不可とする。
+        $weddingFinished = true;
+      }
     	$loginHTML .= '<button type="button" name="entry" class="btn btn-5" onclick="';
       $loginHTML .= "entryRoom('vrchat://launch/?id=wrld_679f8079-2408-494b-b35a-a54104356356:4587~public')";
       $loginHTML .= '" value="entry"';
-    	if($weddingNotReady)
+    	if($weddingNotReady || $weddingFinished)
     	{
     		$loginHTML .= ' disabled';
     	}
     	$loginHTML .= '>ルームに入る</button>';	
-    	if($weddingNotReady)
+    	
+      if($weddingNotReady)
     	{
     		// まだ開始時間を過ぎていない場合、その旨のメッセージを画面に表示させる。
     		$weddingYN .= '<p>開始時間までしばらくお待ちください。</p>';
     	}
+      else if($weddingFinished)
+      {
+        // 結婚式の入室締切時刻を過ぎていたら、その旨のメッセージを画面に表示させる。
+        $weddingYN .= '<p>この結婚式は既に終了しています。</p>';
+      }
+      else
+      {
+        // ルームに入室可能な場合、入室締切時刻を表示する。
+        $weddingYN .= '<p>入室終了時刻:' . $finishTime->format('Y/m/d H:i:s') . '</p>';
+      }
     }
  
   }
