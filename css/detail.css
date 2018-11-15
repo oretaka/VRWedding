@@ -75,3 +75,10 @@
   margin:0;
   color:#ff2fef;
 }
+
+// ログインボタン・ホームボタンなどのボタンエリア。
+#butArea
+{
+  width:80%;
+  margin:0 auto;
+}

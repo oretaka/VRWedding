@@ -24,6 +24,8 @@
   $weddingID = 0;
   // 参加不参加ボタン表示部分のHTML。ただし、ログインしていない場合はログインを促すメッセージを表示する。
   $weddingYN = "";
+  // ログインボタン表示部分のHTML。ログインする必要がある場合、画面に自動的に表示される。
+  $loginHTML = "";
 
   // 結婚式の参加結果。　1:結婚式の参加正常完了　2:システムエラー発生
   $result = 0;
@@ -173,6 +175,9 @@
   {
     // どのユーザーもログインしていない場合は、ログインを促すメッセージを表示させる。
     $weddingYN .= '<p>まだログインしていません。結婚式に参加するにはログインしてください。</p>';
+    $loginHTML .= '<button type="button" name="login" class="btn btn-5" onclick="';
+    $loginHTML .= "location.href='login.php';";
+    $loginHTML .= '">Login</button>';
   }
 
 ?>
@@ -209,7 +214,11 @@
         <h3 class="smallnote zilla less-space"><?php echo $note; ?></h3>
         <!-- 参加・不参加ボタンの表示エリア -->
         <h4 class="zilla less-space"><?php echo $weddingYN; ?></h4>
-        <button type="button" name="home" class="btn btn-5" onclick="location.href='index.php';">HOME</button>
+
+        <div id="butArea">
+          <?php echo $loginHTML; ?>
+          <button type="button" name="home" class="btn btn-5" onclick="location.href='index.php';">HOME</button>
+        </div>
         
       </div></div>
   </div>
