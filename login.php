@@ -94,9 +94,11 @@
   
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
 
-      <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/login.css">
 
-  
+  <!-- ボタンの整形用css -->
+ <!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="css/button.css"> -->
 </head>
 
 <body>
@@ -130,6 +132,9 @@
 					<div class="foot-lnk">
 						<a href="#forgot">Forgot Password?</a>
 					</div>
+					<div class="foot-lnk">
+						<button type="button" name="home" class="btn btn-5 loginHome" onclick="location.href='index.php';">HOME</button>
+					</div>
 				</form>
 			</div>
 			<div class="sign-up-htm">
@@ -156,6 +161,9 @@
 					<div class="hr"></div>
 					<div class="foot-lnk">
 						<label for="tab-1">Already Member?</label>
+					</div>
+					<div class="foot-lnk">
+						<button type="button" name="home" class="btn btn-5 loginHome" onclick="location.href='index.php';">HOME</button>
 					</div>
 				</form>
 			</div>

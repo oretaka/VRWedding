@@ -158,3 +158,9 @@ a{color:inherit;text-decoration:none}
 .foot-lnk{
 	text-align:center;
 }
+
+/* ログイン画面のホームボタン */
+.loginHome
+{
+	margin-top:16px;
+}
