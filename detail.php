@@ -157,12 +157,14 @@
       		// 現在時刻がまだ開始時間を過ぎていないなら、入室不可とする。
       		$weddingNotReady = true;
       	}
-    	$weddingYN .= '<button type="button" name="entry" value="entry"';
+    	$loginHTML .= '<button type="button" name="entry" class="btn btn-5" onclick="';
+      $loginHTML .= "entryRoom('vrchat://launch/?id=wrld_679f8079-2408-494b-b35a-a54104356356:4587~public')";
+      $loginHTML .= '" value="entry"';
     	if($weddingNotReady)
     	{
-    		$weddingYN .= ' disabled';
+    		$loginHTML .= ' disabled';
     	}
-    	$weddingYN .= '>ルームに入る</button>';	
+    	$loginHTML .= '>ルームに入る</button>';	
     	if($weddingNotReady)
     	{
     		// まだ開始時間を過ぎていない場合、その旨のメッセージを画面に表示させる。
@@ -188,13 +190,14 @@
 <head>
   <meta charset="UTF-8">
   <title>html/css bridal shower invite</title>
-  
-  
-  
+
       <link rel="stylesheet" href="css/detail.css">
-       <!-- ボタンの整形用css -->
+      <!-- ボタンの整形用css -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
       <link rel="stylesheet" href="css/button.css">
+      <!-- VRChatのルーム遷移用javascript -->
+      <script src="js/detail.js" type="text/javascript"></script>
+
 
   
 </head>

@@ -82,3 +82,8 @@
   width:80%;
   margin:0 auto;
 }
+#butArea button
+{
+  float:left;
+  margin-right:0
+}
