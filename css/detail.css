@@ -81,9 +81,16 @@
 {
   width:80%;
   margin:0 auto;
+  display:table-cell;
+  vertical-align:middle;
 }
 #butArea button
 {
-  float:left;
-  margin-right:0
+  display:inline-block;
+  margin:0 auto;
+}
+#butArea form
+{
+  display:inline-block;
+  margin:0 auto;
 }
