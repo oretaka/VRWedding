@@ -75,22 +75,40 @@
   margin:0;
   color:#ff2fef;
 }
+/* 説明文の文字サイズ変更 */
+.smallnote
+{
+  font-size:16px;
+}
+/* 情報メッセージの文字サイズ変更 */
+.smallinfo
+{
+  font-size:20px;
+}
 
-// ログインボタン・ホームボタンなどのボタンエリア。
+/*ログインボタン・ホームボタンなどのボタンエリア。*/
 #butArea
 {
   width:80%;
+  height:10%;
   margin:0 auto;
-  display:table-cell;
+  display:table;
   vertical-align:middle;
 }
 #butArea button
 {
-  display:inline-block;
-  margin:0 auto;
+  padding:14px;
+  display:table-cell;
+  margin:0 8px 0 auto;
 }
 #butArea form
 {
-  display:inline-block;
+  display:table-cell;
   margin:0 auto;
 }
+
+/*モーダル関連*/
+/*.modal-title
+{
+  text-align:left;
+}*/
