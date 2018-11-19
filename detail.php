@@ -3,6 +3,8 @@
   session_start();
   // DAOクラスの読み込み
   require_once("backphp/Dao.class.php");
+  // 時刻チェッククラスの読み込み
+  require_once("backphp/timecheck.php");
 
   //                    ここから　変数宣言
   
@@ -124,7 +126,7 @@
   if( isset($_GET["result"]) )
   {
     $result = intval($_GET["result"]);
-    $weddingYN .= '<p>';
+    $weddingYN .= '<p class="smallinfo">';
     switch($result)
     {
       case 1:
@@ -142,24 +144,36 @@
 
     // 現在ログイン中のユーザーが該当の結婚式に参加済みかチェック。既に参加している場合、その旨のメッセージを表示させる。
     $dbres = $dao->select("invite",null,["weddingID = ?","userID = ?"],[$weddingID,$id],"AND");
+    $datetime = new Datetime( str_replace('/', '-', $date) . ' ' . str_replace('～', ':00', $time) );
+    // 結婚式の入室締切時刻を格納。
+    $finishTime = new Datetime( $datetime->format('Y-m-d') . ' ' . '00:00:00' );
+    $finishTime->modify('+1 days');
+    $nowDatetime = new Datetime();
     if(empty($dbres))
     {
+   	  if($nowDatetime >= $finishTime)
+      {
+        // 現在時刻が入室締切時刻を過ぎている場合、結婚式への参加不可とする。
+        $weddingFinished = true;
+      }
       // まだ該当の結婚式には参加していない場合
-      $loginHTML .= '<form action="backphp/detail_db.php" method="post">';
+      $loginHTML .= '<form action="backphp/detail_db.php" id="attendForm" method="post">';
       $loginHTML .= '<input type="hidden" name="weddingID" value="' . $weddingID . '">';
       $loginHTML .= '<input type="hidden" name="userID" value="' . $id . '">';
-      $loginHTML .= '<input type="submit" name="attend" class="btn btn-5" value="参加する"></form>';
+      $loginHTML .= '<button type="button" name="attend" id="attend" class="btn btn-5"';
+      if($weddingFinished)
+      {
+      	$loginHTML .= ' disabled';
+      }
+      $loginHTML .= '>参加する</button></form>';
+      if($weddingFinished)
+      {
+        // 結婚式の入室締切時刻を過ぎていたら、その旨のメッセージを画面に表示させる。
+        $weddingYN .= '<p class="smallinfo">この結婚式は既に終了しています。</p>';
+      }
     }
     else
     {
-    	// 既に該当の結婚式に参加している場合、結婚式の開始時間前ならばルームに入るボタンを無効に、開始時間後ならばルームに入るボタンを有効にする。
-    	$datetime = new Datetime( str_replace('/', '-', $date) . ' ' . str_replace('～', ':00', $time) );
-      // 結婚式の入室締切時刻を格納。
-      $finishTime = new Datetime( $datetime->format('Y-m-d') . ' ' . '00:00:00' );
-      $finishTime->modify('+1 days');
-
-    	$nowDatetime = new Datetime();
-
     	if($nowDatetime < $datetime)
     	{
     		$weddingNotReady = true;
@@ -181,17 +195,17 @@
       if($weddingNotReady)
     	{
     		// まだ開始時間を過ぎていない場合、その旨のメッセージを画面に表示させる。
-    		$weddingYN .= '<p>開始時間までしばらくお待ちください。</p>';
+    		$weddingYN .= '<p class="smallinfo">開始時間までしばらくお待ちください。</p>';
     	}
       else if($weddingFinished)
       {
         // 結婚式の入室締切時刻を過ぎていたら、その旨のメッセージを画面に表示させる。
-        $weddingYN .= '<p>この結婚式は既に終了しています。</p>';
+        $weddingYN .= '<p class"smallinfo">この結婚式は既に終了しています。</p>';
       }
       else
       {
         // ルームに入室可能な場合、入室締切時刻を表示する。
-        $weddingYN .= '<p>入室終了時刻:' . $finishTime->format('Y/m/d H:i:s') . '</p>';
+        $weddingYN .= '<p class="smallinfo">入室終了時刻:' . $finishTime->format('Y/m/d H:i:s') . '</p>';
       }
     }
  
@@ -199,7 +213,7 @@
   else
   {
     // どのユーザーもログインしていない場合は、ログインを促すメッセージを表示させる。
-    $weddingYN .= '<p>まだログインしていません。結婚式に参加するにはログインしてください。</p>';
+    $weddingYN .= '<p class="smallinfo">まだログインしていません。結婚式に参加するにはログインしてください。</p>';
     $loginHTML .= '<button type="button" name="login" class="btn btn-5" onclick="';
     $loginHTML .= "location.href='login.php';";
     $loginHTML .= '">Login</button>';
@@ -214,30 +228,32 @@
   <meta charset="UTF-8">
   <title>html/css bridal shower invite</title>
 
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
       <link rel="stylesheet" href="css/detail.css">
       <!-- ボタンの整形用css -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
       <link rel="stylesheet" href="css/button.css">
-      <!-- VRChatのルーム遷移用javascript -->
-      <script src="js/detail.js" type="text/javascript"></script>
-
-
   
 </head>
 
 <body>
 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
  <link href="https://fonts.googleapis.com/css?family=Oswald|Zilla+Slab:300i" rel="stylesheet">
+  <!-- VRChatのルーム遷移用javascript -->
+  <script src="js/detail.js" type="text/javascript"></script>
 <div id="container">
   <div class="floral-background">
     <div class="text-block">
       <div class="words">
         <h3 class="zilla less-space">please join us for a</h3>
-        <h1 class="oswald uppercase some-space bigger-text">Bridal Shower</h1>
+        <h1 class="oswald uppercase some-space bigger-text">Bridal Party</h1>
         <h4 class="zilla less-space">in honor<br> of the bride-to-be</h4>
         <h2 class="smallname oswald uppercase some-space"><span class="maleName"><?php echo $maleName; ?></span> <span class="heart">♡</span> <span class="femaleName"><?php echo $femaleName; ?></span></h2>
         <h3 class="zilla less-space"><?php echo $dotw . ", " . $date . " at " . $time; ?></h3>
-        <h3 class="smallnote zilla less-space"><?php echo $note; ?></h3>
+        <h3 class="smallnote zilla less-space smallText"><?php echo $note; ?></h3>
         <!-- 参加・不参加ボタンの表示エリア -->
         <h4 class="zilla less-space"><?php echo $weddingYN; ?></h4>
 
@@ -250,6 +266,25 @@
   </div>
 </div>
   
+<!-- モーダル・ダイアログ -->
+<div class="modal fade" id="sampleModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<img src="img/info.png" alt="確認アイコン">
+				<h4 class="modal-title">結婚式参加の確認</h4>
+				<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+			</div>
+			<div class="modal-body">
+				この結婚式に参加します。よろしいですか？
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-5" onclick="enableEntry()" data-dismiss="modal">参加</button>
+				<button type="button" class="btn btn-5" data-dismiss="modal">キャンセル</button>
+			</div>
+		</div>
+	</div>
+</div>
   
 
 </body>

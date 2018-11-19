@@ -39,6 +39,8 @@
   $note = "";
   // 募集中の結婚式id
   $weddingID = 0;
+  // 今日の日付を格納する変数。
+  $nowDate = new Datetime('now');
 
   //   										ここまで　変数宣言・初期化
 
@@ -208,9 +210,9 @@
 
       <div id="countDownWrapper">
         <div class="dateInfo">
-          <p>Wednesday Octorber 10, 2018</p>
+          <p><?php echo $nowDate->format('l M j,Y'); ?></p>
         </div>
-        <div id="countdownTimer">
+        <!-- <div id="countdownTimer">
           <div class="timeHolder">
             <p>{{countdown_days}}</p>
             <h2>DAYS</h2>
@@ -227,7 +229,7 @@
             <p>{{countdown_sec}}</p>
             <h2>SECONDS</h2>
           </div>
-        </div>  
+        </div>   -->
       </div>
       <!--  Timer End   -->
       
