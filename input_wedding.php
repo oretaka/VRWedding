@@ -178,17 +178,14 @@
 <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>
 
 <!-- Button -->
-<div class="form-group">
+<div class="form-group" id="homeSend">
   <label class="col-md-4 control-label"></label>
-  <div class="col-md-4">
+  <div class="col-md-1">
+      <button type="button" name="home" class="btn btn-5" onclick="location.href='index.php';">HOME</button>
+  </div>
+  <div class="col-md-1">
     <button type="submit" class="btn btn-warning" >Send <span class="glyphicon glyphicon-send"></span></button>
   </div>
-</div>
-<div class="form-group">
-    <label class="col-md-4 control-label"></label>
-    <div class="col-md-4">
-      <button type="button" name="home" class="btn btn-5" onclick="location.href='index.php';">HOME</button>
-    </div>
 </div>
 </fieldset>
 </form>
