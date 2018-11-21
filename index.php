@@ -85,7 +85,7 @@
       $bpHtml .= '<div class="width50"><img class="profileImage" src="img/userimg.jpg">';
 
       // hiddenタグで、結婚式の募集情報をセットする。
-      $bpHtml .= '<form action="detail.php" method="post">';
+      $bpHtml .= '<form action="detail.php" method="get">';
       $bpHtml .= '<input type="hidden" name="weddingID" value="' . $dbres[$i]["weddingID"] . '">';
       $bpHtml .= '<input type="hidden" name="maleName" value="' . $maleName . '">';
       $bpHtml .= '<input type="hidden" name="femaleName" value="' . $femaleName . '">';

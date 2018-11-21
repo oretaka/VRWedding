@@ -5,9 +5,8 @@
   require_once("backphp/Dao.class.php");
   // 時刻チェッククラスの読み込み
   require_once("backphp/timecheck.php");
-
   //                    ここから　変数宣言
-  
+
   // 現在ログイン中のユーザーID。ログイン中のユーザー情報がない場合、-1がセットされる。
   $id = -1;
   // 男の名前
@@ -28,7 +27,8 @@
   $weddingYN = "";
   // ログインボタン表示部分のHTML。ログインする必要がある場合、画面に自動的に表示される。
   $loginHTML = "";
-
+  // 参加者リスト表示部分のHTML
+  $conventionListHtml = "";
   // 結婚式の参加結果。　1:結婚式の参加正常完了　2:システムエラー発生
   $result = 0;
   // 該当の結婚式の開始時間前の場合、trueとなるフラグ。開始時間を過ぎている場合はfalse。
@@ -59,40 +59,40 @@
   // 一覧表示ページから送信された募集情報が取得できる場合、取得する。
   // POSTに値がある場合は、POSTからの取得を優先。ない場合は、セッションからの取得を試みる。
   // まだセッションに値を保存していない場合、セッションに値をセットし、更新させて結婚式詳細情報が消えないようにする。
-  if( isset($_POST["weddingID"]) )
+  if( isset($_GET["weddingID"]) )
   {
-    $weddingID = intval($_POST["weddingID"]);
-    $_SESSION["weddingID"] = $_POST["weddingID"];
+    $weddingID = intval($_GET["weddingID"]);
+    $_SESSION["weddingID"] = $_GET["weddingID"];
   }
   else if( isset($_SESSION["weddingID"]) )
   {
     $weddingID = intval($_SESSION["weddingID"]);
   }
 
-  if( isset($_POST["maleName"]) )
+  if( isset($_GET["maleName"]) )
   {
-    $maleName = $_POST["maleName"];
-    $_SESSION["maleName"] = $_POST["maleName"];
+    $maleName = $_GET["maleName"];
+    $_SESSION["maleName"] = $_GET["maleName"];
   }
   else if( isset($_SESSION["maleName"]) )
   {
     $maleName = $_SESSION["maleName"];
   }
 
-  if( isset($_POST["femaleName"]) )
+  if( isset($_GET["femaleName"]) )
   {
-    $femaleName = $_POST["femaleName"];
-    $_SESSION["femaleName"] = $_POST["femaleName"];
+    $femaleName = $_GET["femaleName"];
+    $_SESSION["femaleName"] = $_GET["femaleName"];
   }
   else if( isset($_SESSION["femaleName"]) )
   {
     $femaleName = $_SESSION["femaleName"];
   }
 
-  if( isset($_POST["date"]) )
+  if( isset($_GET["date"]) )
   {
-    $date = $_POST["date"];
-    $_SESSION["date"] = $_POST["date"];
+    $date = $_GET["date"];
+    $_SESSION["date"] = $_GET["date"];
   }
   else if( isset($_SESSION["date"]) )
   {
@@ -101,20 +101,20 @@
   // 実施日付が取得できた場合、その日付から曜日を算出する。
   $dotw = date('l',strtotime($date));
 
-  if( isset($_POST["time"]) )
+  if( isset($_GET["time"]) )
   {
-    $time = $_POST["time"];
-    $_SESSION["time"] = $_POST["time"];
+    $time = $_GET["time"];
+    $_SESSION["time"] = $_GET["time"];
   }
   else if( isset($_SESSION["time"]) )
   {
     $time = $_SESSION["time"];
   }
 
-  if( isset($_POST["note"]) )
+  if( isset($_GET["note"]) )
   {
-    $note = $_POST["note"];
-    $_SESSION["note"] = $_POST["note"];
+    $note = $_GET["note"];
+    $_SESSION["note"] = $_GET["note"];
   }
   else if( isset($_SESSION["note"]) )
   {
@@ -163,7 +163,7 @@
       $loginHTML .= '<button type="button" name="attend" id="attend" class="btn btn-5"';
       if($weddingFinished)
       {
-      	$loginHTML .= ' disabled';
+        $loginHTML .= ' disabled';
       }
       $loginHTML .= '>参加する</button></form>';
       if($weddingFinished)
@@ -183,15 +183,15 @@
         // 現在時刻が入室締切時刻を過ぎている場合も、入室不可とする。
         $weddingFinished = true;
       }
-    	$loginHTML .= '<button type="button" name="entry" class="btn btn-5" onclick="';
+      $loginHTML .= '<button type="button" name="entry" class="btn btn-5" onclick="';
       $loginHTML .= "entryRoom('vrchat://launch/?id=wrld_679f8079-2408-494b-b35a-a54104356356:4587~public')";
       $loginHTML .= '" value="entry"';
-    	if($weddingNotReady || $weddingFinished)
-    	{
-    		$loginHTML .= ' disabled';
-    	}
-    	$loginHTML .= '>ルームに入る</button>';	
-    	
+      if($weddingNotReady || $weddingFinished)
+      {
+        $loginHTML .= ' disabled';
+      }
+      $loginHTML .= '>ルームに入る</button>';	
+      
       if($weddingNotReady)
     	{
     		// まだ開始時間を過ぎていない場合、その旨のメッセージを画面に表示させる。
@@ -208,7 +208,6 @@
         $weddingYN .= '<p class="smallinfo">入室終了時刻:' . $finishTime->format('Y/m/d H:i:s') . '</p>';
       }
     }
- 
   }
   else
   {
@@ -218,32 +217,50 @@
     $loginHTML .= "location.href='login.php';";
     $loginHTML .= '">Login</button>';
   }
-
+  //参加者一覧取得
+  $conventionList = $dao->select("invite",["nickname"],null,null,null,"INNER JOIN user_register ON invite.userID=user_register.id WHERE weddingID = $weddingID AND propriety = '参加'");
+  if(empty($conventionList))
+  {
+    //参加者が居なければ何も表示しない
+  }
+  else
+  {
+    $conventionListHtml .= '<ul style="list-style-type: none">';
+    for($i=0;$i<count($conventionList);$i++)
+    {
+      //データベースから、参加者情報を取得する。
+      $conventionListHtml .= "<li>".$conventionList[$i]["nickname"]."</li>";
+    }
+    $conventionListHtml .= "</ul>";
+  }
 ?>
 
 <!DOCTYPE html>
 <html lang="en" >
 
 <head>
+  <title><?php  echo $maleName."&#9825;". $femaleName." |bridal shower invite";  ?></title>  
   <meta charset="UTF-8">
-  <title>html/css bridal shower invite</title>
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@Ms2019D" />
+  <meta property="og:url" content="<?php echo $url ?>" />
+  <meta property="og:title" content="<?php  echo $maleName."&#9825;". $femaleName." |bridal shower invite";  ?>" />
+  <meta property="og:description" content="<?php  echo $maleName."さんと". $femaleName."さんのBRIDAL　PARTYです。";  ?>" />
+  <meta property="og:image" content="http://vrwedding.php.xdomain.jp/img/userimg.jpg" />
 
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-      <link rel="stylesheet" href="css/detail.css">
-      <!-- ボタンの整形用css -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-      <link rel="stylesheet" href="css/button.css">
-  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/detail.css">
+  <!-- ボタンの整形用css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="css/button.css">
 </head>
-
 <body>
-
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
- <link href="https://fonts.googleapis.com/css?family=Oswald|Zilla+Slab:300i" rel="stylesheet">
-  <!-- VRChatのルーム遷移用javascript -->
-  <script src="js/detail.js" type="text/javascript"></script>
+<link href="https://fonts.googleapis.com/css?family=Oswald|Zilla+Slab:300i" rel="stylesheet">
+<!-- VRChatのルーム遷移用javascript -->
+<script src="js/detail.js" type="text/javascript"></script>
 <div id="container">
   <div class="floral-background">
     <div class="text-block">
@@ -256,17 +273,30 @@
         <h3 class="smallnote zilla less-space smallText"><?php echo $note; ?></h3>
         <!-- 参加・不参加ボタンの表示エリア -->
         <h4 class="zilla less-space"><?php echo $weddingYN; ?></h4>
-
         <div id="butArea">
           <?php echo $loginHTML; ?>
           <button type="button" name="home" class="btn btn-5" onclick="location.href='index.php';">HOME</button>
         </div>
-        
-      </div></div>
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-hashtags="VRWedding" data-lang="ja" data-show-count="false"
+        data-url="<?php $url?>"
+        data-via=""
+        data-text="<?php echo "BRIDAL PARTY ". $maleName."♡". $femaleName; ?>"
+        data-related=""
+        data-count=""
+        data-lang="ja"
+        data-counturl="<?php $url?>"
+        data-hashtags=""
+        data-size=""
+        >Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+    </div>
+      <?php 
+          echo $conventionListHtml;
+        ?>
   </div>
 </div>
-  
-<!-- モーダル・ダイアログ -->
+
+  <!-- モーダル・ダイアログ -->
 <div class="modal fade" id="sampleModal" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
